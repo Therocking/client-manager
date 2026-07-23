@@ -1,9 +1,9 @@
-FROM eclipse-temurin:25-jdk AS build
+FROM maven:3.9-eclipse-temurin-25 AS build
 WORKDIR /app
 COPY pom.xml .
+RUN mvn dependency:go-offline -q
 COPY src ./src
-RUN apt-get update && apt-get install -y maven && \
-    mvn package -DskipTests
+RUN mvn package -DskipTests
 
 FROM eclipse-temurin:25-jre
 WORKDIR /app
