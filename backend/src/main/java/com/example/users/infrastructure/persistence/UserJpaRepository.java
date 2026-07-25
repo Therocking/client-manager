@@ -2,6 +2,7 @@ package com.example.users.infrastructure.persistence;
 
 import com.example.users.domain.model.User;
 import com.example.users.domain.repository.UserRepository;
+import org.jspecify.annotations.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,9 +17,9 @@ public interface UserJpaRepository extends JpaRepository<User, UUID>, UserReposi
 
     @Override
     @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.addresses")
-    List<User> findAll();
+    @NonNull List<User> findAll();
 
     @Override
     @Query("SELECT u FROM User u LEFT JOIN FETCH u.addresses WHERE u.id = :id")
-    Optional<User> findById(@Param("id") UUID id);
+    @NonNull Optional<User> findById(@Param("id") @NonNull UUID id);
 }
